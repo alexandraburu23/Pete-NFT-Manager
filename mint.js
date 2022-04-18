@@ -2,6 +2,8 @@ Moralis.start({serverUrl: "https://qg1sx6ooj64k.usemoralis.com:2053/server", app
 
 let web3;
 
+let currentUser;
+
 function fetchData(NFTS, token_id){
     let promises = [];
     for(let i=0;i<NFTS.length; i++)
@@ -22,7 +24,7 @@ function fetchData(NFTS, token_id){
                 .then( (res) => {
                     nft.owners = [];
                     res.result.forEach(element => {
-                        nft.owners.push(element.ownerOf);
+                        nft.owners.push(element.owner_of);
                     });
                     return nft;
                 }
@@ -60,8 +62,10 @@ function renderInventory(NFTS){
     }
 }
 
+
+
 async function init(){
-    let currentUser = Moralis.User.current();
+    currentUser = Moralis.User.current();
     if(!currentUser){
         // SIGN In
         window.location.pathname= "/index.html";
